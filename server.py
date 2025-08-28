@@ -1,35 +1,9 @@
-<<<<<<< HEAD
-from fastapi import FastAPI, Request
-import httpx
-import os
-
-app = FastAPI()
-
-# Παίρνει το API key από το Render (Environment Variable)
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-OPENAI_URL = "https://api.openai.com/v1/chat/completions"
-
-@app.post("/chat")
-async def chat(request: Request):
-    data = await request.json()
-    async with httpx.AsyncClient() as client:
-        response = await client.post(
-            OPENAI_URL,
-            headers={
-                "Authorization": f"Bearer {OPENAI_API_KEY}",
-                "Content-Type": "application/json"
-            },
-            json=data
-        )
-    return response.json()
-=======
 import os
 import httpx
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-# ΣΗΜΕΙΩΣΗ: Το OPENAI_API_KEY ΔΕΝ το βάζεις εδώ.
-# Θα το ορίσουμε ως Environment Variable στο Render στο Βήμα 2.
+# Παίρνει το API key από το Render (Environment Variable)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 app = FastAPI(title="AI Gateway", version="1.0.0")
@@ -99,4 +73,3 @@ async def chat_completions(request: Request):
     except Exception:
         # fallback
         return {"raw": resp.text}
->>>>>>> 33da6179b9e813e86de3244a3de5a00b242de160
